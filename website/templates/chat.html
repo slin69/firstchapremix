@@ -31,9 +31,9 @@
 
     var host = window.location.hostname; 
     var socket=io()
-    console.log(location.protocol + '//' + document.domain + ':' + location.port)
+
     var username=document.getElementById("username").value;
-    console.log("username:",username)
+
     input=document.getElementById("msg");
     const d=new Date;
     let time=d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();;
@@ -100,7 +100,7 @@
     
     }
         if (Notification.permission === "granted" && document.hidden==true) {
-            console.log("sdfajklf");
+            
     
            showfirst();
         } else if (Notification.permission !== "denied" && document.hidden==true) {
@@ -111,7 +111,7 @@
 
     //connecting user to the server
     socket.on('connect', function() {
-        console.log("user connected")
+        
         msg={
             "username":username,
             "message":"connected",
@@ -140,7 +140,7 @@
              };
          }
         if (Notification.permission === "granted" && document.hidden==true) {
-            console.log("sdfajklf");
+            
 
            showNotification();
         } else if (Notification.permission !== "denied" && document.hidden==true) {
@@ -155,7 +155,7 @@
     })
     function send(){
         input=document.getElementById("msg")
-        console.log(input.value)
+        
         msg={
             "username":username,
             "message":input.value,
@@ -184,7 +184,7 @@
          socket.emit('is_typing',"");
              $('#msg').val('');  }
         else{  
-        console.log("typing")
+        
          socket.emit('is_typing', `typing: ${username}`);
 
         }
@@ -198,8 +198,7 @@
         }
        });
        socket.on("is_typing",function(msg){
-        console.log("shit")
-        console.log(msg)
+
         var who = document.getElementById("who_typed")
         who.innerHTML =msg
         
