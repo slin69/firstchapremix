@@ -29,7 +29,7 @@
     let timer,timeoutval=1000;
     var protocol = window.location.protocol;
     const port=process.env.PORT || 3000;
-    var socket=io.connect(protocol + document.domain + ':' + location.port)
+    var socket=io()
     var username=document.getElementById("username").value;
     console.log("username:",username)
     input=document.getElementById("msg");
