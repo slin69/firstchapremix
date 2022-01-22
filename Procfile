@@ -1,1 +1,1 @@
-web: gunicorn main.py:firstchapremix
+gunicorn -k geventwebsocket.gunicorn.workers.GeventWebSocketWorker -w 1 main.py:firstchapremix
