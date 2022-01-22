@@ -1,1 +1,1 @@
-gunicorn -k geventwebsocket.gunicorn.workers.GeventWebSocketWorker -w 1 main.py:firstchapremix
+web: gunicorn -k flask_sockets.worker chat:app
