@@ -27,8 +27,9 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"></script>
 <script type="text/javascript">
     let timer,timeoutval=1000;
+    var protocol = window.location.protocol;
     const port=process.env.PORT || 3000;
-    var socket=io.connect()
+    var socket=io.connect(protocol + document.domain + ':' + location.port)
     var username=document.getElementById("username").value;
     console.log("username:",username)
     input=document.getElementById("msg");
