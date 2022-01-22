@@ -28,7 +28,7 @@
 <script type="text/javascript">
     let timer,timeoutval=1000;
     const port=process.env.PORT || 3000;
-    var socket=io.connect(port)
+    var socket=io.connect()
     var username=document.getElementById("username").value;
     console.log("username:",username)
     input=document.getElementById("msg");
