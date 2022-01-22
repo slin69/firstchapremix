@@ -4,7 +4,7 @@ from flask_socketio import *
 from website.views import *
 users=[]
 app=create_app()
-socketio = SocketIO(app,cors_allowed_origins="*", engineio_logger=True, logger=True)
+socketio = SocketIO(app)
 
 
 
