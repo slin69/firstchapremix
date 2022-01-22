@@ -1,1 +1,1 @@
-web: flask run
+web: gunicorn --worker-class eventlet -w 1 main.py:firstchapremix
