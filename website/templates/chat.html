@@ -1,0 +1,239 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="center">
+<h1>username: {{session["name"]}}</h1>
+<h1 id="users_online">users online:</h1>
+<button type="submit" style="display:none;" id="username" value={{session['name']}}></button>
+
+<a id="smiley" title="smiley" href="#" onclick="enableTxt(this, event)" >&#128515;</a>
+<a id="sadface" title="sadface" href="#" onclick="enableTxt(this, event)" >&#128530;</a>
+<a id="laughing" title="laughing" href="#" onclick="enableTxt(this, event)" >&#128514;</a>
+<a id="devil" title="devil" href="#" onclick="enableTxt(this, event)" >&#128520;</a>
+<a id="tired" title="tired" href="#" onclick="enableTxt(this, event)" >&#128555;</a>
+<a id="" title="" href="#" onclick="enableTxt(this, event)" >&#129324;</a>
+<a id="face screaming in fear" title="face screaming wit fear" href="#" onclick="enableTxt(this, event)" >&#128561;</a>
+<a id="egg plant" title="egg plant" href="#" onclick="enableTxt(this, event)" >&#127814;</a>
+<a id="water droplet" title="waterdroplet" href="#" onclick="enableTxt(this, event)" >&#128166;</a>
+<a id="happy" title="happy" href="#" onclick="enableTxt(this, event)" >&#128516;</a>
+<a id="sad" title="sad" href="#" onclick="enableTxt(this, event)" >&#128557;</a>
+<ul id="messages" style="border: 1px solid;word-wrap:break-word;height:600px;width:600px;overflow:hidden;overflow-y:scroll;"></ul>
+<input id="msg" type="text">
+<button type="submit" onclick="send()"class="btn btn-primary">send</button>
+<h2 id="who_typed"></h2>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"></script>
+<script type="text/javascript">
+    let timer,timeoutval=1000;
+    var socket=io.connect("http://127.0.0.1:5000")
+    var username=document.getElementById("username").value;
+    console.log("username:",username)
+    input=document.getElementById("msg");
+    const d=new Date;
+    let time=d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();;
+
+    /*socket.on("message",function(msg){
+        messages=document.getElementById("messages");
+        h1=document.createElement("h1")
+        h1.innerHTML=msg
+        messages.appendChild(h1)
+    })
+    socket.on("connect",function(){
+        console.log("connected")
+        console.log(`${username}: connected`)
+        socket.send(`user: connected`)
+        socket.emit("message",`user: connected`)
+    });
+    
+    $("#msg").keypress(function (e)  {
+        if (e.keyCode == 13)  {
+         socket.emit('is_typing',"");
+             $('#msg').val('');  }
+        else{  
+         socket.emit('is_typing', `${username} is typing......`);
+
+        }
+       });
+       $("#msg").keyup(function (e)  {
+        if (e.keyCode == 13)  {
+         socket.emit('is_typing',"");
+             $('#msg').val('');  }
+        else{  
+         socket.emit('is_typing', " ");
+        }
+       });
+    function send(){
+        input=document.getElementById("msg")
+        console.log(input.value)
+        msg={
+            "username":username,
+            "message":input.value
+        }
+        socket.send(msg)
+
+    }
+    socket.on("is_typing",function(msg){
+        console.log("shit")
+        console.log(msg)
+        var who = document.getElementById("who_typed")
+        who.innerHTML =msg
+        
+
+    })
+
+    socket.on("disconnect",function(){
+        socket.emit("message",`${username}: ${disconnected}`)
+    })*/
+
+    //setting up the notifications
+    function showfirst(){
+        const notification = new Notification("New message incoming", {
+            body: `hey there lad`,
+            icon: "yourimageurl.png"
+         })
+    
+    }
+        if (Notification.permission === "granted" && document.hidden==true) {
+            console.log("sdfajklf");
+    
+           showfirst();
+        } else if (Notification.permission !== "denied" && document.hidden==true) {
+           Notification.requestPermission().then(permission => {
+              showfirst();
+           });
+        }
+
+    //connecting user to the server
+    socket.on('connect', function() {
+        console.log("user connected")
+        msg={
+            "username":username,
+            "message":"connected",
+            "type":"connect"
+        }
+        socket.send(msg)
+
+    //recveing the messages
+    //this is stefans project
+    });
+    socket.on("message",function(msg){
+        messages=document.getElementById("messages");
+        h2=document.createElement("h2")
+        h2.innerHTML=msg
+        messages.appendChild(h2)
+        h3=document.createElement("h3")
+        h3.innerHTML=`${time}`
+        messages.appendChild(h3)
+        function showNotification() {
+            const notification = new Notification("New message incoming", {
+               body: `${msg}`,
+               icon: "yourimageurl.png"
+            })
+            notification.onclick = (e) => {
+                window.location.href = "https://google.com";
+             };
+         }
+        if (Notification.permission === "granted" && document.hidden==true) {
+            console.log("sdfajklf");
+
+           showNotification();
+        } else if (Notification.permission !== "denied" && document.hidden==true) {
+           Notification.requestPermission().then(permission => {
+              showNotification();
+           });
+        }
+
+    
+    //this is how you send the data
+
+    })
+    function send(){
+        input=document.getElementById("msg")
+        console.log(input.value)
+        msg={
+            "username":username,
+            "message":input.value,
+            "type":"message"
+        }
+        socket.emit("message",msg)
+        input.value=null;
+
+    }
+    //getting the number of users
+    socket.on("update_users",function(msg){
+        var users_online=document.getElementById("users_online");
+        users_online.innerHTML=`users online: ${msg}`
+
+    })
+
+    //getting the emojis
+    function enableTxt(elem) {
+        document.querySelector('#msg').value += elem.textContent;
+    }
+
+
+    //updating who is typing in the server
+    $("#msg").keypress(function (e)  {
+        if (e.keyCode == 13)  {
+         socket.emit('is_typing',"");
+             $('#msg').val('');  }
+        else{  
+        console.log("typing")
+         socket.emit('is_typing', `typing: ${username}`);
+
+        }
+       });
+       $("#msg").keyup(function (e)  {
+        if (e.keyCode == 13)  {
+         socket.emit('is_typing',"");
+             $('#msg').val('');  }
+        else{  
+         socket.emit('is_typing', "typing: ");
+        }
+       });
+       socket.on("is_typing",function(msg){
+        console.log("shit")
+        console.log(msg)
+        var who = document.getElementById("who_typed")
+        who.innerHTML =msg
+        
+
+    })
+
+
+
+
+
+    //diconecting users
+        window.onbeforeunload = function () {
+            msg={
+                "username":username,
+                "message":"disconnected",
+                "type":"disconnect"
+            }
+        console.log("user: disconnected")
+        socket.emit("message",msg)
+        }
+
+
+
+
+
+
+
+
+    
+</script>
+<style>
+    .center {
+
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+
+    }
+</style>
+{% endblock %}
