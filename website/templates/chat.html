@@ -179,24 +179,7 @@
 
 
     //updating who is typing in the server
-    $("#msg").keypress(function (e)  {
-        if (e.keyCode == 13)  {
-         socket.emit('is_typing',"");
-             $('#msg').val('');  }
-        else{  
-        
-         socket.emit('is_typing', `typing: ${username}`);
 
-        }
-       });
-       $("#msg").keyup(function (e)  {
-        if (e.keyCode == 13)  {
-         socket.emit('is_typing',"");
-             $('#msg').val('');  }
-        else{  
-         socket.emit('is_typing', "typing: ");
-        }
-       });
        socket.on("is_typing",function(msg){
 
         var who = document.getElementById("who_typed")
