@@ -4,6 +4,7 @@ var username;
 let ejs = require('ejs')
 let fs = require('fs')
 var users=[]
+const port=process.env.PORT || 3000;
 app.get('/', (req, res) => {
     console.log(username)
   res.sendFile(__dirname + '/index.html')});
@@ -55,6 +56,6 @@ app.get('/', (req, res) => {
 
 
 
-http.listen(5000, () => {
+http.listen(port, () => {
   console.log('listening on *:5000');
 });
