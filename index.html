@@ -7,7 +7,7 @@
     <ul style="width:300px; height:485px;border: 1px solid;overflow:hidden;overflow-y:scroll;" id="messages"></ul>
 
     <input type="text" id="input">
-    <button onclick="send()" type="button">send</button>
+    <button onclick="send()">send</button>
     <h1 id="typing">typing: </h1>    
 </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -130,6 +130,10 @@
     //who is typings
 
     document.addEventListener('keydown', function(event) {
+        if(event.which==13){
+            event.preventDefault();
+        }
+        else{
         console.log("typing")
         msg={
             "username":username,
@@ -137,8 +141,10 @@
             "type":"type"
         }
         socket.emit("whotyped",msg)
+    }
         
       });
+    
 
     
       document.addEventListener('keyup', function(event) {
