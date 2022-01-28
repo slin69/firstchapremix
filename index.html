@@ -1,0 +1,175 @@
+<form >
+    <body onbeforeunload="alert('function alrt WORKS !!!!')"></body>
+
+    <div class="center">
+    <h1 id="updateusers">users online:</h1>
+    <h1  id="hello"></h1>
+    <ul style="width:300px; height:485px;border: 1px solid;overflow:hidden;overflow-y:scroll;" id="messages"></ul>
+
+    <input type="text" id="input">
+    <button onclick="send()" type="button">send</button>
+    <h1 id="typing">typing: </h1>    
+</div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript">
+    let username=prompt("please enter username")
+    var socket = io( {reconnect: true});
+
+    //getting started with the notifications
+    function showfirst(){
+        const notification = new Notification("New message incoming", {
+            body: `hey there lad`,
+            icon: "yourimageurl.png"
+         })
+    
+    }
+        if (Notification.permission === "granted" && document.hidden==true) {
+            console.log("sdfajklf");
+    
+           showfirst();
+        } else if (Notification.permission !== "denied" && document.hidden==true) {
+           Notification.requestPermission().then(permission => {
+              showfirst();
+           });
+        }
+    
+    //on connection to server
+    socket.on("connect", function(){
+        msg={
+            "username":username,
+            "message":"connected",
+            "type":"connect"
+        }
+        console.log("connect")
+        var h1=document.getElementById("hello")
+        h1.innerHTML=`username: ${username}`
+        socket.emit("message",msg)
+        
+
+
+
+    })
+
+    //anable text message
+
+    function enableTxt(elem) {
+        document.querySelector('#input').value += elem.textContent;
+    }
+    //send messages
+    function send(){
+        var input=document.getElementById("input")
+        msg={
+            "username":username,
+            "message":input.value,
+            "type":"message"
+        }
+        socket.emit("message",msg)
+        input.value=null
+    }
+    
+
+
+
+    //recving messages
+    socket.on("message",function(data){
+        var today = new Date();
+        var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        var dateTime = date+' '+time;
+
+        ul=document.getElementById("messages")
+        h2=document.createElement("h2")
+        h2.innerHTML=`${data["username"]}: ${data["message"]}`
+        ul.appendChild(h2)
+
+        p=document.createElement("p")
+        p.innerHTML=`${time}`
+        ul.appendChild(p)
+
+
+
+        function showfirst(){
+            const notification = new Notification("New message incoming", {
+                body: `${data['username']}: ${data["message"]}`,
+                icon: "yourimageurl.png"
+             })
+        
+        }
+            if (Notification.permission === "granted" && document.hidden==true) {
+                console.log("sdfajklf");
+        
+               showfirst();
+            } else if (Notification.permission !== "denied" && document.hidden==true) {
+               Notification.requestPermission().then(permission => {
+                  showfirst();
+               });
+            }
+
+    })
+
+
+    //users disconnected
+    window.onbeforeunload=function(){
+        msg={
+            "username":username,
+            "message":'disconnect',
+            "type":"disconnect"
+        }
+        socket.emit("message",msg)
+    }
+
+    //update users  
+    socket.on("usersupdate",function(data){
+        var usersupdate=document.getElementById("updateusers")
+        usersupdate.innerHTML=`users: ${data}`
+
+    })
+
+    //who is typings
+
+    document.addEventListener('keydown', function(event) {
+        console.log("typing")
+        msg={
+            "username":username,
+            "message":'typing',
+            "type":"type"
+        }
+        socket.emit("whotyped",msg)
+        
+      });
+
+    
+      document.addEventListener('keyup', function(event) {
+        console.log("typing")
+        msg={
+            "username":'',
+            "message":'typing',
+            "type":"type"
+        }
+        socket.emit("whotyped",msg)
+        
+      });
+
+
+
+    socket.on('whotyped',function(data){
+        console.log(data)
+        var type=document.getElementById("typing")
+        type.innerHTML=`typing: ${data['username']}`
+    })
+
+    </script>
+    <style>
+        .center {
+            word-wrap: break-word;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+    </style>
+
+</form>
