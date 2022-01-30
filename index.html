@@ -5,26 +5,24 @@
     <h1 id="updateusers">users online:</h1>
     <h1  id="hello"></h1>
     <ul style="width:300px; height:485px;border: 1px solid;overflow:hidden;overflow-y:scroll;" id="messages"></ul>
-        <link href="css/emojionearea.min.css">
+
     <input type="text" id="input">
-    <select onclick="enableTxt(this, event)">
-    <option><a id="smiley" title="smiley" href="#" onclick="enableTxt(this, event)" >&#128515;</a></option>
-    <option><a id="sadface" title="sadface" href="#" onclick="enableTxt(this, event)" >&#128530;</a></option>
-    <option><a id="laughing" title="laughing" href="#" onclick="enableTxt(this, event)" >&#128514;</a></option>
-    <option><a id="devil" title="devil" href="#" onclick="enableTxt(this, event)" >&#128520;</a></option>
-    <option><a id="tired" title="tired" href="#" onclick="enableTxt(this, event)" >&#128555;</a></option>
-    <option><a id="" title="" href="#" onclick="enableTxt(this, event)" >&#129324;</a></option>
-    <option><a id="face screaming in fear" title="face screaming wit fear" href="#" onclick="enableTxt(this, event)" >&#128561;</a></option>
-    <option><a id="egg plant" title="egg plant" href="#" onclick="enableTxt(this, event)" >&#127814;</a></option>
-    <option><a id="water droplet" title="waterdroplet" href="#" onclick="enableTxt(this, event)" >&#128166;</a></option>
-    <option><a id="happy" title="happy" href="#" onclick="enableTxt(this, event)" >&#128516;</a></option>
-    <option><a id="sad" title="sad" href="#" onclick="enableTxt(this, event)" >&#128557;</a></option>
-</select>
+    <a id="smiley" title="smiley" href="#" onclick="enableTxt(this, event)" >&#128515;</a>
+    <a id="sadface" title="sadface" href="#" onclick="enableTxt(this, event)" >&#128530;</a>
+    <a id="laughing" title="laughing" href="#" onclick="enableTxt(this, event)" >&#128514;</a>
+    <a id="devil" title="devil" href="#" onclick="enableTxt(this, event)" >&#128520;</a>
+    <a id="tired" title="tired" href="#" onclick="enableTxt(this, event)" >&#128555;</a>
+    <a id="" title="" href="#" onclick="enableTxt(this, event)" >&#129324;</a>
+    <a id="face screaming in fear" title="face screaming wit fear" href="#" onclick="enableTxt(this, event)" >&#128561;</a>
+    <a id="egg plant" title="egg plant" href="#" onclick="enableTxt(this, event)" >&#127814;</a>
+    <a id="water droplet" title="waterdroplet" href="#" onclick="enableTxt(this, event)" >&#128166;</a>
+    <a id="happy" title="happy" href="#" onclick="enableTxt(this, event)" >&#128516;</a>
+    <a id="sad" title="sad" href="#" onclick="enableTxt(this, event)" >&#128557;</a>
     <button type="button" onclick="send()">send</button>
     <h1 id="typing">typing: </h1>    
 </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="js/emojionearea.min.js"></script>
+
     <script src="/socket.io/socket.io.js"></script>
     <script type="text/javascript">
     let username=prompt("please enter username")
@@ -47,11 +45,7 @@
               showfirst();
            });
         }
-    //emoji on text input
-    $("#input").emojioneArea({
-        pickerPosition:"bottom"
-    })
-
+    
     //on connection to server
     socket.on("connect", function(){
         msg={
