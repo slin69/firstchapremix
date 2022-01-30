@@ -1,9 +1,34 @@
 <html>
     <head>
+        <input id="input">
+        <select id="s" onclick="get()">
+            <option></option>
+            <option value=4 >4</option>
+            <option><button onclick="get()">shit</button></option>
+            <option><a id="smiley" title="smiley" href="#" onclick="get()">&#128515;</a></option>
+            <option><a id="sadface" title="sadface" href="#" onclick="get()">&#128530;</a></option>
+            <option><a id="laughing" title="laughing" href="#" onclick="get()" >&#128514;</a></option>
+        </select>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <script type="text/javascript">
             window.onunload = function(){     
                 window.open("https://www.youtube.com/watch?v=GmOEkinqymc")
+            }
+            if(document.getElementById("s").clicked==true){
+                s=document.getElementById("s")
+                s.option=s[2]
+                console.log(true)
+            }
+            else{
+                console.log(false)
+            }
+
+            function get(){
+                s=document.getElementById('s')
+                console.log(s.value)
+                input=document.getElementById("input")
+                input.value+=s.value
+                s.selectedIndex=0
             }
         </script>
     </head>
