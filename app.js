@@ -20,6 +20,10 @@ app.get('/', (req, res) => {
                 "username":data['username'],
                 "message":"connected"
             }
+            fs.appendFile("messages.txt",`${data['username']}: connected\n`,function(err){
+                if(err) throw err;
+                console.log("its been saved")
+            })
             users.push(data['username'])
             io.emit("usersupdate",users)
             console.log("users:",users)
@@ -30,6 +34,10 @@ app.get('/', (req, res) => {
                 "username":data['username'],
                 "message":data["message"]
             }
+            fs.appendFile("messages.txt",`${data['username']}: ${data['message']}\n`,function(err){
+                if(err) throw err;
+                console.log("its been saved")
+            })
             console.log(data['message'])
             io.emit("message",msg)
         }
@@ -38,6 +46,10 @@ app.get('/', (req, res) => {
                 "username":data['username'],
                 "message":"disconnect"
             }
+            fs.appendFile("messages.txt",`${data['username']}: disconnected\n`,function(err){
+                if(err) throw err;
+                console.log("its been saved")
+            })
             const index = users.indexOf(data["username"]);
             users.splice(index,1);
             console.log("user disconnected:",data['username'])
