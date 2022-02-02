@@ -4,6 +4,7 @@ var username;
 let ejs = require('ejs')
 let fs = require('fs')
 var users=[]
+app.use(express.static("public"));
 const port=process.env.PORT || 3000;
 app.get('/', (req, res) => {
     console.log(username)
