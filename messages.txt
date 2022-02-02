@@ -29,3 +29,18 @@ adf: disconnected
 asd: connected
 asd: disconnected
 adf: connected
+adf: disconnected
+stefan: connected
+adf: connected
+adf: disconnected
+adf: connected
+adf: disconnected
+adf: connected
+adf: afds
+afd: connected
+afd: disconnected
+adfs: connected
+adfs: 
+adfs: adf
+adfs: 
+adfs: hello bros

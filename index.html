@@ -31,7 +31,7 @@
     <option><a id="sick" title="sick" href="#" onclick="enableTxt(this, event)" >&#129298;</a></option>
     <option><a id="eyeroll" title="eyeroll" href="#" onclick="enableTxt(this, event)" >&#128580;</a></option>
 </select>
-    <button type="button" onclick="send()">send</button>
+    <button  type="button" onclick="send()" >send</button>
     <h1 id="typing">typing: </h1>    
 </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -96,6 +96,12 @@
         socket.emit("message",msg)
         input.value=null
     }
+    $("#input").keyup(function(event){
+        if(event.keyCode==13){
+            send()
+        }
+    })
+
     
 
 
